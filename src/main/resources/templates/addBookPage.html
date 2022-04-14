@@ -1,0 +1,23 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Form Control: GET</title>
+</head>
+<body>
+<form action="/books" method="post">
+    Name: <input name="name">
+    <br /> <p/>
+    Author: <input name="author" type="password">
+    <br /> <p/>
+    Price: <input name="price">
+    <br /> <p/>
+    <button type="submit">Add book</button>
+
+    <p/>
+
+
+</form>
+<form action="/allBooks" method="get">
+    <input type="submit"  value="See all" />
+</form>
+</body>
+</html>

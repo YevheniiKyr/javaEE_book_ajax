@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Form Control: POST</title>
+</head>
+<body>
+<table>
+    <thead>
+    <th>name</th>
+    <th>author</th>
+    <th>price</th>
+    </thead>
+    <tbody>
+    <tr th:each="book: ${bookList}">
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.price}"></td>
+    </tr>
+    </tbody>
+   </table>
+
+
+</body>
+</html>
