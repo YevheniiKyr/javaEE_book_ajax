@@ -1,23 +1,109 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" >
 <head>
-    <title>Form Control: GET</title>
+    <title>BooksPage</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
 <body>
-<form action="/books" method="post">
-    Name: <input name="name">
+<form id = "create_book">
+    Name: <input name ="name">
     <br /> <p/>
-    Author: <input name="author" type="password">
+    Author: <input name ="author">
     <br /> <p/>
-    Price: <input name="price">
+    Isbn: <input name ="isbn">
     <br /> <p/>
-    <button type="submit">Add book</button>
+    <button  type="submit">Add book</button>
 
     <p/>
+</form>
+     Find: <input id ="find">
+<button id = "search_book" type = button> Search </button>
+<button id = "all_books" type = button> All books </button>
+    <table>
+        <thead>
+        <th>name</th>
+        <th>author</th>
+        <th>isbn</th>
+        </thead>
+        <tbody id = "books_table">
+
+        </tbody>
+    </table>
+
+<script >
+    $('#create_book').submit(function (e){
+
+        e.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: "/books",
+            dataType: 'json',
+
+            data: JSON.stringify({
+                name:  $(this).find('[name=name]').val(),
+                author:  $(this).find('[name=author]').val(),
+                isbn : $(this).find('[name=isbn]').val(),
+            }),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json')
+            },
+            success: function (resp){
+
+                getBooks()
+            },
+
+        });
 
 
-</form>
-<form action="/allBooks" method="get">
-    <input type="submit"  value="See all" />
-</form>
+    })
+
+    let getBooks = () => {
+
+        $('#books_table').empty();
+        $.ajax(
+            {
+
+                url: '/all_books',
+                method: 'get',
+                success: function (books) {
+
+                         books.forEach(book =>  { console.log(book.name); $('#books_table').append(
+                        '<tr><td>' +  book.name + '</td> <td>' +  book.author+ ' </td> <td> ' + book.isbn + '</td></tr>'
+                    )
+
+                    })
+                }
+            });
+
+    }
+    $('#all_books').click(function (e){
+        e.preventDefault()
+        $('#find').empty()
+        getBooks();
+    })
+    $('#search_book').click(function (e){
+        e.preventDefault()
+        $('#books_table').empty();
+
+        $.ajax(
+            {
+
+                url: '/all_books?find=' + $('#find').val(),
+                method: 'get',
+                success: function (books) {
+                    books.forEach(book =>  { console.log(book.name); $('#books_table').append(
+                        '<tr><td>' +  book.name + '</td> <td>' +  book.author+ ' </td> <td> ' + book.isbn + '</td></tr>'
+                    )
+
+                    })
+                }
+            });
+
+    })
+
+
+</script>
+
 </body>
 </html>

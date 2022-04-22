@@ -10,14 +10,14 @@ public class Book {
 
     private String name;
     private String author;
-    private double price;
+    private String isbn;
 
 
 
-    public Book(String name, String author, double price) {
+    public Book(String name, String author, String isbn) {
         this.name = name;
         this.author = author;
-        this.price = price;
+        this.isbn = isbn;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Book {
         return "Book{" +
                 "name='" + name + '\'' +
                 ", author='" + author + '\'' +
-                ", price=" + price +
+                ", isbn=" + isbn +
                 '}';
     }
 }
