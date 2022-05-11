@@ -12,32 +12,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
 
-    private final EntityManager entityManager;
+    private final BookRepository bookRepository;
+  //  private final EntityManager entityManager;
     @Transactional
     public Book createBook(final Book book)
     {
-     //   System.out.println(book);
-       // return book;
-        return entityManager.merge(book);
+
+     //   return entityManager.merge(book);
+        return bookRepository.saveAndFlush(book);
     }
     @Transactional
     public Book getBookById(String isbn )
     {
-        return entityManager.find(Book.class,isbn);
+        //return entityManager.find(Book.class,isbn);
+        return bookRepository.getById(isbn);
     }
 
     public List<Book> getAllBooks() {
-      //  List<Book> books =  new ArrayList<Book>();
-      //  books.add(new Book("dd","dd","dd"));
-      //  return books ;
-        return entityManager.createQuery("SELECT b FROM Book b" , Book.class).getResultList();
+
+       // return entityManager.createQuery("SELECT b FROM Book b" , Book.class).getResultList();
+        return bookRepository.findAll();
     }
     @Transactional
     public List<Book> findBookWhereContains(String searchText) {
-        return entityManager.createQuery("SELECT u FROM Book u WHERE u.name LIKE :query " +
+     /*   return entityManager.createQuery("SELECT u FROM Book u WHERE u.name LIKE :query " +
                         "OR u.author LIKE :query OR u.isbn LIKE :query  ", Book.class)
                 .setParameter("query", '%' + searchText + '%')
                 .getResultList();
+    }*/
+      return bookRepository.findAllByNameContainsOrIsbnContains(searchText,searchText);
     }
-
 }
